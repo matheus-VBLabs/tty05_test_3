@@ -80,7 +80,7 @@ module one_hz_clock #(parameter DELAY = 1000)(input clk,            // clk input
 
   reg [26:0] counter = 0;
   
-  initial out = 1;
+  initial out = 1'b1;
   
     always @(posedge clk) begin
     	counter <= counter + 1'b1;
@@ -98,7 +98,7 @@ endmodule
 module counter_6bits(input in, output reg a, output reg b, output reg c, output reg d, output reg e,output reg f);
   reg [5:0] count;
   always @(posedge in)begin
-    count <= count + 1;
+    count <= count + 6'b1;
     a <= count[0];
     b <= count[1];
     c <= count[2];
@@ -129,7 +129,7 @@ module tune
 
     always @(posedge clk) begin
         count_freq <= count_freq + 1;
-        out <= 1;
+        out <= 1'b1;
         if(count_freq >= aux) begin
             out <= 0;
             if( count_freq == aux*2)
