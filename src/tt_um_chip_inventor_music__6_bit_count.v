@@ -21,6 +21,22 @@ endmodule
 
 
 
+//IMPORTED BLOCK:OR2b
+module OR2b (a, b, y);
+
+//-----------Input Ports---------------- 
+    input a,b; 
+
+//-----------Output Ports--------------- 
+    output y; 
+
+//-------------Code Start--------------- 
+    assign y = a | b;
+
+endmodule
+
+
+
 //IMPORTED BLOCK:tune
 module tune
 (
@@ -67,10 +83,13 @@ module tt_um_chip_inventor_music__6_bit_count (
     input  wire       rst_n     // reset_n - low to reset
 );
 
- wire buzzer;
- wire btn1;
-
- assign btn1 = ui_in[0];
+  wire clk;
+  wire buzzer;
+  wire btn1;
+  wire btn2;
+  
+assign btn1 = ui_in[0];
+ assign btn2 = ui_in[1];
 
  assign uo_out[0] = buzzer;
 
@@ -80,9 +99,11 @@ module tt_um_chip_inventor_music__6_bit_count (
 
  assign uo_out[7:1] = 7'b0;
 
-
 //Internal Wires
  wire w_1;
+ wire w_2;
+ wire w_3;
+ wire w_4;
 
 //Instances os Modules
 tune blk202_1 (
@@ -92,9 +113,27 @@ tune blk202_1 (
      );
 
 AND2b blk2_4 (
-         .Y (buzzer),
          .B (btn1),
-         .A (w_1)
+         .A (w_1),
+         .Y (w_2)
+     );
+
+tune blk202_7 (
+         .clk (clk),
+         .freq (10'd300),
+         .out (w_3)
+     );
+
+AND2b blk2_9 (
+         .B (btn2),
+         .A (w_3),
+         .Y (w_4)
+     );
+
+OR2b blk10_11 (
+         .y (buzzer),
+         .a (w_2),
+         .b (w_4)
      );
 
 
