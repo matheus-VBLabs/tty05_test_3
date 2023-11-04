@@ -76,7 +76,7 @@ endmodule
 module one_hz_clock #(parameter DELAY = 1000)(input clk,            // clk input
 								output reg out);  // output pin
 
-  localparam TICKS = DELAY * (`clock_frequnecy / 2000);
+  localparam TICKS = 135_000_000;
 
   reg [26:0] counter = 0;
   
@@ -119,7 +119,7 @@ module tune
 )
 
 ;
-    reg [20:0] aux = (13513513/freq);
+    reg [20:0] aux = (20'd13513513/{10'b0,freq});
     reg [20:0] count_freq = 0;
  
     
@@ -132,7 +132,7 @@ module tune
         out <= 1'b1;
         if(count_freq >= aux) begin
             out <= 0;
-            if( count_freq == aux*2)
+            if( count_freq == aux*21'd2)
                 count_freq <=0;
         end
     end
@@ -169,6 +169,7 @@ module tt_um_chip_inventor_music__6_bit_count (
  assign uo_out[4] = l4;
  assign uo_out[5] = led0;
  assign uo_out[6] = led1;
+ assign uo_out[7] = 1'b0;
 
  wire btn1;
  wire btn2;
@@ -186,7 +187,7 @@ module tt_um_chip_inventor_music__6_bit_count (
  assign uio_oe = 8'b11111111;
  assign uio_out = 8'b0;
 
- assign uo_out[7] = 1'b0;
+ 
 
 //Internal Wires
  wire w_1;
