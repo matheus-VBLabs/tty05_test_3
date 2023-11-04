@@ -84,7 +84,7 @@ module one_hz_clock #(parameter DELAY = 1000)(input clk,            // clk input
   
     always @(posedge clk) begin
     	counter <= counter + 1'b1;
-    	if (counter == TICKS) begin
+	    if (counter == 27'd100000) begin
     		out <= ~out;
     		counter <= 27'b0;
     	end
