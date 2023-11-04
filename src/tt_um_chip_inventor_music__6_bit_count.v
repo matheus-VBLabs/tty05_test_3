@@ -132,7 +132,7 @@ module tune
         out <= 1'b1;
         if(count_freq >= aux) begin
             out <= 0;
-            if( count_freq == aux*21'd2)
+		if( count_freq == 21'd100)
                 count_freq <=0;
         end
     end
