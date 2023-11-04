@@ -21,95 +21,6 @@ endmodule
 
 
 
-//IMPORTED BLOCK:inverterC
-module inverterC( 
-A,
-Q
-); 
-
-//-----------Input Ports--------------- 
-input A;
-
-//-----------Output Ports--------------- 
-output Q; 
-
-//-------------Code Start----------------- 
-assign Q = ! A;
-
-endmodule
-
-
-
-
-//IMPORTED BLOCK:OR2b
-module OR2b (a, b, y);
-
-//-----------Input Ports---------------- 
-    input a,b; 
-
-//-----------Output Ports--------------- 
-    output y; 
-
-//-------------Code Start--------------- 
-    assign y = a | b;
-
-endmodule
-
-
-
-//IMPORTED BLOCK:pulse_count16
-module pulse_count16(pulse, counter);
-  input wire pulse;
-  output reg [15:0] counter;
-  
-  initial counter = 0;
-  
-  always @(posedge pulse) begin
-    counter <= counter + 1;
-  end
-endmodule
-
-
-
-//IMPORTED BLOCK:one_hz_clock
-`define clock_frequnecy 27_000_000
-module one_hz_clock #(parameter DELAY = 1000)(input clk,            // clk input
-								output reg out);  // output pin
-
-  localparam TICKS = DELAY * (`clock_frequnecy / 2000);
-
-  reg [26:0] counter = 0;
-  
-  initial out = 1'b1;
-  
-    always @(posedge clk) begin
-    	counter <= counter + 1'b1;
-    	if (counter == TICKS) begin
-    		out <= ~out;
-    		counter <= 27'b0;
-    	end
-    end
-endmodule
-
-
-
-
-//IMPORTED BLOCK:counter_6bits
-module counter_6bits(input in, output reg a, output reg b, output reg c, output reg d, output reg e,output reg f);
-  reg [5:0] count;
-  always @(posedge in)begin
-    count <= count + 6'b1;
-    a <= count[0];
-    b <= count[1];
-    c <= count[2];
-    d <= count[3];
-    e <= count[4];
-    f <= count[5];
-  end
-endmodule
-
-
-
 //IMPORTED BLOCK:tune
 module tune
 (
@@ -156,57 +67,22 @@ module tt_um_chip_inventor_music__6_bit_count (
     input  wire       rst_n     // reset_n - low to reset
 );
 
+ wire buzzer;
+ wire btn1;
 
  assign btn1 = ui_in[0];
- assign btn2 = ui_in[1];
- assign btn3 = ui_in[2];
- assign btn4 = ui_in[3];
 
  assign uo_out[0] = buzzer;
- assign uo_out[1] = l1;
- assign uo_out[2] = l2;
- assign uo_out[3] = l3;
- assign uo_out[4] = l4;
- assign uo_out[5] = led0;
- assign uo_out[6] = led1;
-
- wire btn1;
- wire btn2;
- wire btn3;
- wire btn4;
- wire buzzer;
-  
- wire l1;
- wire l2;
- wire l3;
- wire l4;
- wire led0;
- wire led1;
 
  assign uio_oe = 8'b11111111;
+
  assign uio_out = 8'b0;
 
- assign uo_out[7] = 1'b0;
+ assign uo_out[7:1] = 7'b0;
+
 
 //Internal Wires
  wire w_1;
- wire w_2;
- wire w_3;
- wire w_4;
- wire w_5;
- wire w_6;
- wire w_7;
- wire w_8;
- wire w_9;
- wire w_10;
- wire w_11;
- wire w_12;
- wire w_13;
- wire w_14;
- wire w_15;
- wire w_16;
- wire w_17;
- wire w_18;
 
 //Instances os Modules
 tune blk202_1 (
@@ -215,114 +91,10 @@ tune blk202_1 (
          .out (w_1)
      );
 
-tune blk202_3 (
-         .clk (clk),
-         .freq (10'd330),
-         .out (w_2)
-     );
-
-tune blk202_4 (
-         .clk (clk),
-         .freq (10'd390),
-         .out (w_3)
-     );
-
-tune blk202_5 (
-         .clk (clk),
-         .freq (10'd496),
-         .out (w_4)
-     );
-
-AND2b blk2_6 (
-         .A (btn1),
-         .B (w_1),
-         .Y (w_5)
-     );
-
-AND2b blk2_7 (
-         .A (btn2),
-         .B (w_2),
-         .Y (w_6)
-     );
-
-AND2b blk2_8 (
-         .A (btn3),
-         .B (w_3),
-         .Y (w_7)
-     );
-
-AND2b blk2_9 (
-         .A (btn4),
-         .B (w_4),
-         .Y (w_8)
-     );
-
-OR2b blk10_14 (
-         .a (w_5),
-         .b (w_6),
-         .y (w_9)
-     );
-
-OR2b blk10_15 (
-         .a (w_7),
-         .b (w_8),
-         .y (w_10)
-     );
-
-OR2b blk10_16 (
-         .y (buzzer),
-         .a (w_9),
-         .b (w_10)
-     );
-
-pulse_count16 blk79_22 (
-         .pulse (clk),
-         .counter (w_11)
-     );
-
-counter_6bits blk173_23 (
-         .in (w_12),
-         .a (w_13),
-         .b (w_14),
-         .c (w_15),
-         .d (w_16),
-         .e (w_17),
-         .f (w_18)
-     );
-
-one_hz_clock blk80_24 (
-         .clk (w_11),
-         .out (w_12)
-     );
-
-inverterC blk5_32 (
-         .Q (l1),
-         .A (w_13)
-     );
-
-inverterC blk5_33 (
-         .Q (l2),
-         .A (w_14)
-     );
-
-inverterC blk5_34 (
-         .Q (l3),
-         .A (w_15)
-     );
-
-inverterC blk5_35 (
-         .Q (l4),
-         .A (w_16)
-     );
-
-inverterC blk5_36 (
-         .Q (led0),
-         .A (w_17)
-     );
-
-inverterC blk5_37 (
-         .Q (led1),
-         .A (w_18)
+AND2b blk2_4 (
+         .Y (buzzer),
+         .B (btn1),
+         .A (w_1)
      );
 
 
